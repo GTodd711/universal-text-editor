@@ -22,28 +22,33 @@ export const putDb = async (content) => {
   const db = await initdb();
   const tx = db.transaction('jate', 'readwrite');
   const store = tx.objectStore('jate');
-  await store.add({ content }); // Store the content as an object
+  await store.put({ id:1, value:content }); // Store the content as an object
   await tx.done;
   console.log('Content added to the database.');
 };
 
 // Function to get all content from the database
 export const getDb = async () => {
-  console.log('Retrieving content from the database...');
-  const db = await initdb();
-  const tx = db.transaction('jate', 'readonly');
+  console.log('GET from the database');
+
+  // Create a connection to the database database and version we want to use.
+  const contactDb = await openDB('jate', 1);
+
+  // Create a new transaction and specify the database and data privileges.
+  const tx = contactDb.transaction('jate', 'readonly');
+
+  // Open up the desired object store.
   const store = tx.objectStore('jate');
-  const data = await store.getAll(); // Retrieve all content
-  console.log('Content retrieved from the database:', data);
-  return data;
+
+  // Use the .getAll() method to get all data in the database.
+  const request = store.get(1);
+
+  // Get confirmation of the request.
+  const result = await request;
+  console.log('result.value', result);
+  return result.value;
 };
 
-// Example usage: Add content to the database
-putDb('Sample content added to database')
-  .then(() => console.log('Content added to database'))
-  .catch((error) => console.error('Error adding content to database:', error));
 
-// Example usage: Retrieve content from the database
-getDb()
-  .then((data) => console.log('Content retrieved from database:', data))
-  .catch((error) => console.error('Error retrieving content from database:', error));
+// Start the database.
+initdb();

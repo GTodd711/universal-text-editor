@@ -11,22 +11,9 @@ module.exports = () => {
       install: '/src/js/install.js',
     },
     output: {
-      path: path.resolve(__dirname, 'dist'),
       filename: '[name].bundle.js', // Use [name] placeholder for unique filenames
-      publicPath: '/',
-    },
-    devServer: {
-      host: 'localhost',
-      port: 8080,
-      hot: true,
-      open: true,
-      historyApiFallback: {
-        rewrites: [
-          { from: /^\/$/, to: '/index.html' }, // Redirect root to index.html
-          { from: /./, to: '/404.html' }, // Redirect all other routes to 404.html
-        ],
-      },
-    },
+      path: path.resolve(__dirname, 'dist'),
+          },
     
     plugins: [
       new HtmlWebpackPlugin({
@@ -36,7 +23,7 @@ module.exports = () => {
 
       new InjectManifest({
         swSrc: './src-sw.js', 
-        swDest: 'service-worker.js', 
+        swDest: 'src-sw.js', 
       }),
 
       new WebpackPwaManifest({
@@ -46,6 +33,7 @@ module.exports = () => {
         short_name: 'J.A.T.E',
         description: 'A simple text editor for everyone.',
         start_url: '/',
+        publicPath: '/',
         background_color: '#ffffff',
         theme_color: '#ffffff',
         icons: [
@@ -63,7 +51,6 @@ module.exports = () => {
         {
           test: /\.css$/i,
           use: ['style-loader', 'css-loader'],
-          include: path.resolve(__dirname, '/src/css/style.css'),
         },
         {
           test: /\.js$/,
