@@ -1,25 +1,40 @@
 {
-  "name": "JATE",
+  "name": "universal",
   "version": "1.0.0",
-  "description": "",
+  "description": "A universal text editor project.",
   "main": "server.js",
   "scripts": {
-    "start:dev": "",
-    "start": "",
-    "server": "",
-    "build": "",
-    "install": "",
-    "client": ""
+    "start:dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "node server/server.js",
+    "server": "nodemon server/server.js",
+    "build": "webpack --config client/webpack.config.js",
+    "install": "webpack --config client/webpack.config.js",
+    "client": "webpack serve --config client/webpack.config.js",
+    "deploy": "npm run build && npm run render-deploy"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "text editor",
+    "universal",
+    "node",
+    "express"
+  ],
+  "author": "Your Name",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "idb": "^3.0.0",
     "if-env": "^1.0.4"
   },
   "devDependencies": {
     "concurrently": "^5.2.0",
-    "nodemon": "^2.0.4"
+    "css-loader": "^7.1.1",
+    "html-webpack-plugin": "^5.6.0",
+    "nodemon": "^2.0.4",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.68.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^5.0.4",
+    "webpack-pwa-manifest": "^4.3.0",
+    "workbox-webpack-plugin": "^6.2.4"
   }
 }
